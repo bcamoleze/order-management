@@ -48,7 +48,7 @@ public class RequestStage implements Serializable{
 	private Request request;
 	
 	@ManyToOne // vários estagio para um pedido
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	@JoinColumn(name = "owner_id", nullable = false)
+	private User owner;
 
 }
