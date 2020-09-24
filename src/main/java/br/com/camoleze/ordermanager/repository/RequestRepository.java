@@ -20,7 +20,7 @@ public interface RequestRepository extends JpaRepository<Request, Long>{
 	@Transactional(readOnly = false) // o atributo estara disponivel para leitura e gravação
 	@Modifying   // indica que a consulta modificara a entidade 
 	@Query("UPDATE request SET state = ?2 WHERE id = ?1")
-	public int updateRequest(Long id, RequestState state); // metodo retorna o numero de
+	public int updateStatus(Long id, RequestState state);  // metodo retorna o numero de
 														   // linhas afetadas pelo update
 	
 }
