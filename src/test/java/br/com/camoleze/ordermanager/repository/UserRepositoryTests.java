@@ -23,53 +23,53 @@ public class UserRepositoryTests {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Test
 	public void aSaveTest() {
-	
+
 		User user = new User(null, "Bruno", "bruno.camoleze@gmail.com", "123", Role.ADMINISTRATOR, null, null);
 		User createdUser = userRepository.save(user);
-		
+
 		// atentar-se ao import - usar do pacote "org.assertj.core.api"
 		assertThat(createdUser.getId()).isEqualTo(1L);
-		
+
 	}
-	
+
 	@Test
 	public void updateTest() {
-		
+
 		User user = new User(1L, "Bruno Camoleze", "bruno.camoleze@gmail.com", "123", Role.ADMINISTRATOR, null, null);
 		User updateUser = userRepository.save(user);
-		
+
 		assertThat(updateUser.getName()).isEqualTo("Bruno Camoleze");
-		
+
 	}
-	
+
 	@Test
 	public void getByIdTest() {
-		
+
 		Optional<User> result = userRepository.findById(1L);
 		User user = result.get();
-		
+
 		assertThat(user.getId()).isEqualTo(1L);
-		
+
 	}
-	
+
 	@Test
 	public void listTest() {
-		
+
 		List<User> users = userRepository.findAll();
-		
+
 		assertThat(users.size()).isEqualTo(1);
-		
+
 	}
-	
+
 	@Test
 	public void login() {
-		
+
 		Optional<User> result = userRepository.login("bruno.camoleze@gmail.com", "123");
 		User loggedUser = result.get();
-		
+
 		assertThat(loggedUser.getId()).isEqualTo(1L);
 		
 	}
