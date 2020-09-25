@@ -13,10 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.camoleze.ordermanager.domain.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @AllArgsConstructor
@@ -36,6 +41,8 @@ public class User implements Serializable{
 	@Column(length = 75, nullable = false, unique = true)
 	private String email;
 	
+	@Getter(onMethod = @__({@JsonIgnore}))  // configuração para não exibir esses objetos no JSON
+	@Setter(onMethod = @__({@JsonProperty})) // Durante o set ele deve aceitar a password
 	@Column(length = 100, nullable = false)
 	private String password;
 	
@@ -43,9 +50,11 @@ public class User implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
+	@Getter(onMethod = @__({@JsonIgnore})) // configuração para não exibir esses objetos no JSON
 	@OneToMany(mappedBy = "owner") // um usuário pode ser dono de vários pedidos
 	private List<Request> requests = new ArrayList<Request>();
 	
+	@Getter(onMethod = @__({@JsonIgnore})) // configuração para não exibir esses objetos no JSON
 	@OneToMany(mappedBy = "owner") // um usuário pode ser dono de vários estagios de pedido
 	private List<RequestStage> stages = new ArrayList<RequestStage>();
 	

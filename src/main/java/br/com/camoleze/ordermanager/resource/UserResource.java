@@ -20,7 +20,7 @@ import br.com.camoleze.ordermanager.service.RequestService;
 import br.com.camoleze.ordermanager.service.UserService;
 
 @RestController
-@RequestMapping(value = "user")
+@RequestMapping(value = "users")
 public class UserResource {
 
 	@Autowired

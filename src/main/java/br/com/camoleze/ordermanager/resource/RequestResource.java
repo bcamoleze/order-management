@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.camoleze.ordermanager.domain.Request;
 import br.com.camoleze.ordermanager.domain.RequestStage;
 import br.com.camoleze.ordermanager.service.RequestService;
 import br.com.camoleze.ordermanager.service.RequestStageService;
 
+@RestController
+@RequestMapping(value = "requests")
 public class RequestResource {
 	
 	@Autowired

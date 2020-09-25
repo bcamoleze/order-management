@@ -18,9 +18,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.camoleze.ordermanager.domain.enums.RequestState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -53,6 +56,7 @@ public class Request implements Serializable{
 	@JoinColumn(name = "owner_id", nullable = false)
 	private User owner;
 	
+	@Getter(onMethod = @__({@JsonIgnore})) 
 	@OneToMany(mappedBy = "request") // Um pedido pode ter vários estagios
 	private List<RequestStage> stages = new ArrayList<RequestStage>();
 
