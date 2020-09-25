@@ -63,8 +63,11 @@ public class UserResource {
 	//lista todos os pedidos de um determinado usuário
 	@GetMapping("/{id}/requests")
 	public ResponseEntity<List<Request>> listAllRequestsById(@PathVariable(name = "id") Long id) {
+		
+		System.out.println("Opa! Tô aqui.");
 		List<Request> requests = requestService.listAllByOwnerId(id);
 		return ResponseEntity.ok(requests);
+		
 	}
 
 	

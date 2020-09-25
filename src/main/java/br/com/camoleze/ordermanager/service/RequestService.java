@@ -19,8 +19,10 @@ public class RequestService {
 	
 	public Request save(Request request) {
 		
-		request.setState(RequestState.OPEN);
+		System.out.println("Service: " + request);
+		
 		request.setCreationDate(new Date());
+		request.setState(RequestState.OPEN);
 		
 		Request createdRequest = requestRepository.save(request);
 		

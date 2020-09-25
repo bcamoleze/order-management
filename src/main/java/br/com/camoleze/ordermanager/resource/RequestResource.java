@@ -29,7 +29,8 @@ public class RequestResource {
 	private RequestStageService stageService;
 	
 	@PostMapping
-	public ResponseEntity<Request> save(@RequestBody Request request) {		
+	public ResponseEntity<Request> save(@RequestBody Request request) {
+		System.out.println("Controller: " + request);
 		Request createdRequest = requestService.save(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdRequest);
 	}
