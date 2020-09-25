@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.camoleze.ordermanager.domain.Request;
+import br.com.camoleze.ordermanager.domain.RequestStage;
 import br.com.camoleze.ordermanager.service.RequestService;
+import br.com.camoleze.ordermanager.service.RequestStageService;
 
 public class RequestResource {
 	
 	@Autowired
 	private RequestService requestService;
+	
+	@Autowired
+	private RequestStageService stageService;
 	
 	@PostMapping
 	public ResponseEntity<Request> save(@RequestBody Request request) {		
@@ -44,5 +49,11 @@ public class RequestResource {
 		return ResponseEntity.ok(requests);
 	}
 	
+	// seguindo a mesma ideia dos requests por usuários coloquei esse metodo aqui
+	@GetMapping("/{id}/request-stages")
+	public ResponseEntity<List<RequestStage>> listAllStagesById(@PathVariable(name = "id") Long id) {
+		List<RequestStage> stages = stageService.listAllByRequestId(id);
+		return ResponseEntity.ok(stages);
+	}
 	
 }
