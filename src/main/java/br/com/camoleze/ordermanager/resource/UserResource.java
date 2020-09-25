@@ -13,16 +13,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.camoleze.ordermanager.domain.Request;
 import br.com.camoleze.ordermanager.domain.User;
 import br.com.camoleze.ordermanager.dto.UserLoginDTO;
+import br.com.camoleze.ordermanager.service.RequestService;
 import br.com.camoleze.ordermanager.service.UserService;
 
 @RestController
 @RequestMapping(value = "user")
-public class UserController {
+public class UserResource {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired 
+	private RequestService requestService;
 	
 	@PostMapping
 	public ResponseEntity<User> save(@RequestBody User user) {
@@ -54,5 +59,13 @@ public class UserController {
 		User loggedUser = userService.login(user.getEmail(), user.getPassword());
 		return ResponseEntity.ok(loggedUser);
 	}
+	
+	//lista todos os pedidos de um determinado usuário
+	@GetMapping("/{id}/requests")
+	public ResponseEntity<List<Request>> listAllRequestsById(@PathVariable(name = "id") Long id) {
+		List<Request> requests = requestService.listAllByOwnerId(id);
+		return ResponseEntity.ok(requests);
+	}
+
 	
 }
