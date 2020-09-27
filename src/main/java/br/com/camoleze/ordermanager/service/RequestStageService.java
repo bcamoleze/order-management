@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.camoleze.ordermanager.domain.RequestStage;
-import br.com.camoleze.ordermanager.domain.User;
 import br.com.camoleze.ordermanager.domain.enums.RequestState;
 import br.com.camoleze.ordermanager.exception.NotFoundException;
 import br.com.camoleze.ordermanager.model.PageModel;

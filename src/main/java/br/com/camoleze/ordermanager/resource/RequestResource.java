@@ -1,7 +1,5 @@
 package br.com.camoleze.ordermanager.resource;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.camoleze.ordermanager.domain.Request;
 import br.com.camoleze.ordermanager.domain.RequestStage;
-import br.com.camoleze.ordermanager.domain.User;
 import br.com.camoleze.ordermanager.model.PageModel;
 import br.com.camoleze.ordermanager.model.PageRequestModel;
 import br.com.camoleze.ordermanager.service.RequestService;
@@ -53,8 +50,8 @@ public class RequestResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<PageModel<Request>> listAll(@RequestParam(value = "page") int page,
-												      @RequestParam(value = "size") int size) {
+	public ResponseEntity<PageModel<Request>> listAll(@RequestParam(value = "page", defaultValue = "0") int page,
+												      @RequestParam(value = "size", defaultValue = "10") int size) {
 		
 		PageRequestModel prm = new PageRequestModel(page, size);
 		PageModel<Request> pm = requestService.listAllOnLazyMode(prm);
@@ -65,8 +62,8 @@ public class RequestResource {
 	// seguindo a mesma ideia dos requests por usuários coloquei esse metodo aqui
 	@GetMapping("/{id}/request-stages")
 	public ResponseEntity<PageModel<RequestStage>> listAllStagesById(@PathVariable(name = "id") Long id,
-																	 @RequestParam(value = "page") int page,
-																	 @RequestParam(value = "size") int size) {
+																	 @RequestParam(value = "page" , defaultValue = "0") int page,
+																	 @RequestParam(value = "size" , defaultValue = "10") int size) {
 		PageRequestModel prm = new PageRequestModel(page, size);
 		PageModel<RequestStage> pm = stageService.listAllByRequestIdOnLazyMode(id, prm);
 		

@@ -1,7 +1,5 @@
 package br.com.camoleze.ordermanager.resource;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,8 +50,8 @@ public class UserResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<PageModel<User>> listAll(@RequestParam(value = "page") int page,
-												   @RequestParam(value = "size") int size) {
+	public ResponseEntity<PageModel<User>> listAll(@RequestParam(value = "page", defaultValue = "0") int page,
+												   @RequestParam(value = "size", defaultValue = "10") int size) {
 		
 		PageRequestModel prm = new PageRequestModel(page, size);
 		PageModel<User> pm = userService.listAllOnLazyMode(prm);
@@ -70,8 +68,8 @@ public class UserResource {
 	//lista todos os pedidos de um determinado usuário (por demanda)
 	@GetMapping("/{id}/requests") 
 	public ResponseEntity<PageModel<Request>> listAllRequestsById(@PathVariable(name = "id") Long id, 
-																  @RequestParam(value = "page") int page,
-																  @RequestParam(value = "size") int size) {
+																  @RequestParam(value = "page", defaultValue = "0") int page,
+																  @RequestParam(value = "size", defaultValue = "10") int size) {
 		PageRequestModel prm = new PageRequestModel(page, size);
 		PageModel<Request> pm = requestService.listAllByOwnerIdOnLazyModel(id, prm);
 		
