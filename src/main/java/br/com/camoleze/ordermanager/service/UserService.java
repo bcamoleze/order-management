@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.camoleze.ordermanager.domain.User;
+import br.com.camoleze.ordermanager.exception.NotFoundException;
 import br.com.camoleze.ordermanager.repository.UserRepository;
 import br.com.camoleze.ordermanager.service.util.HashUtil;
 
@@ -35,7 +36,8 @@ public class UserService {
 	
 	public User getUserById(Long id) {
 		Optional<User> result = userRepository.findById(id);
-		return result.get();
+		
+		return result.orElseThrow(()-> new NotFoundException("ORDER MANAGEMENT: There are not user with id = " + id));
 	}
 	
 	public List<User> listAll(){

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.camoleze.ordermanager.domain.Request;
 import br.com.camoleze.ordermanager.domain.enums.RequestState;
+import br.com.camoleze.ordermanager.exception.NotFoundException;
 import br.com.camoleze.ordermanager.repository.RequestRepository;
 
 @Service
@@ -37,7 +38,8 @@ public class RequestService {
 	
 	public Request getById(Long id) {		
 		Optional<Request> result = requestRepository.findById(id);
-		return result.get();		
+
+		return result.orElseThrow(()-> new NotFoundException("ORDER MANAGEMENT: There are not REQUEST with id = " + id));
 	}
 	
 	public List<Request> listAll() {

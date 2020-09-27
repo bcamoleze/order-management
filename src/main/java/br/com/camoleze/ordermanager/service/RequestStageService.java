@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.camoleze.ordermanager.domain.RequestStage;
 import br.com.camoleze.ordermanager.domain.enums.RequestState;
+import br.com.camoleze.ordermanager.exception.NotFoundException;
 import br.com.camoleze.ordermanager.repository.RequestRepository;
 import br.com.camoleze.ordermanager.repository.RequestStageRepository;
 
@@ -37,7 +38,8 @@ public class RequestStageService {
 	
 	public RequestStage getById(Long id) {
 	  	Optional<RequestStage> result = requestStageRepository.findById(id);
-		return result.get();
+	  	
+	  	return result.orElseThrow(()-> new NotFoundException("ORDER MANAGEMENT: There are not request stage with id = " + id));
 	}
 	
 	public List<RequestStage> listAllByRequestId(Long requestId) {
