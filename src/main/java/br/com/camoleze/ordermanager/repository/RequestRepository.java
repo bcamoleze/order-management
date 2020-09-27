@@ -2,6 +2,8 @@ package br.com.camoleze.ordermanager.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +24,7 @@ public interface RequestRepository extends JpaRepository<Request, Long>{
 	@Query("UPDATE request SET state = ?2 WHERE id = ?1")
 	public int updateStatus(Long id, RequestState state);  // metodo retorna o numero de
 														   // linhas afetadas pelo update
+	
+	public Page<Request> findAllByOwnerId(Long id, Pageable pageable);
 	
 }

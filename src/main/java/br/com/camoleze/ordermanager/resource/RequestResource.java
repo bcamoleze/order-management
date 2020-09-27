@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.camoleze.ordermanager.domain.Request;
 import br.com.camoleze.ordermanager.domain.RequestStage;
+import br.com.camoleze.ordermanager.domain.User;
+import br.com.camoleze.ordermanager.model.PageModel;
+import br.com.camoleze.ordermanager.model.PageRequestModel;
 import br.com.camoleze.ordermanager.service.RequestService;
 import br.com.camoleze.ordermanager.service.RequestStageService;
 
@@ -49,16 +53,24 @@ public class RequestResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Request>> listAll() {
-		List<Request> requests = requestService.listAll();
-		return ResponseEntity.ok(requests);
+	public ResponseEntity<PageModel<Request>> listAll(@RequestParam(value = "page") int page,
+												      @RequestParam(value = "size") int size) {
+		
+		PageRequestModel prm = new PageRequestModel(page, size);
+		PageModel<Request> pm = requestService.listAllOnLazyMode(prm);
+		
+		return ResponseEntity.ok(pm);
 	}
 	
 	// seguindo a mesma ideia dos requests por usuários coloquei esse metodo aqui
 	@GetMapping("/{id}/request-stages")
-	public ResponseEntity<List<RequestStage>> listAllStagesById(@PathVariable(name = "id") Long id) {
-		List<RequestStage> stages = stageService.listAllByRequestId(id);
-		return ResponseEntity.ok(stages);
+	public ResponseEntity<PageModel<RequestStage>> listAllStagesById(@PathVariable(name = "id") Long id,
+																	 @RequestParam(value = "page") int page,
+																	 @RequestParam(value = "size") int size) {
+		PageRequestModel prm = new PageRequestModel(page, size);
+		PageModel<RequestStage> pm = stageService.listAllByRequestIdOnLazyMode(id, prm);
+		
+		return ResponseEntity.ok(pm);
 	}
 	
 }

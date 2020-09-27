@@ -67,13 +67,15 @@ public class UserResource {
 		return ResponseEntity.ok(loggedUser);
 	}
 	
-	//lista todos os pedidos de um determinado usuário
-	@GetMapping("/{id}/requests")
-	public ResponseEntity<List<Request>> listAllRequestsById(@PathVariable(name = "id") Long id) {
+	//lista todos os pedidos de um determinado usuário (por demanda)
+	@GetMapping("/{id}/requests") 
+	public ResponseEntity<PageModel<Request>> listAllRequestsById(@PathVariable(name = "id") Long id, 
+																  @RequestParam(value = "page") int page,
+																  @RequestParam(value = "size") int size) {
+		PageRequestModel prm = new PageRequestModel(page, size);
+		PageModel<Request> pm = requestService.listAllByOwnerIdOnLazyModel(id, prm);
 		
-		System.out.println("Opa! Tô aqui.");
-		List<Request> requests = requestService.listAllByOwnerId(id);
-		return ResponseEntity.ok(requests);
+		return ResponseEntity.ok(pm);
 		
 	}
 

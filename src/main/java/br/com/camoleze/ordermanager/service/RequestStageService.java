@@ -5,11 +5,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.camoleze.ordermanager.domain.RequestStage;
+import br.com.camoleze.ordermanager.domain.User;
 import br.com.camoleze.ordermanager.domain.enums.RequestState;
 import br.com.camoleze.ordermanager.exception.NotFoundException;
+import br.com.camoleze.ordermanager.model.PageModel;
+import br.com.camoleze.ordermanager.model.PageRequestModel;
 import br.com.camoleze.ordermanager.repository.RequestRepository;
 import br.com.camoleze.ordermanager.repository.RequestStageRepository;
 
@@ -46,6 +52,18 @@ public class RequestStageService {
 		List<RequestStage> stages = requestStageRepository.findAllByRequestId(requestId);
 		return stages;		
 	}
+	
+	public PageModel<RequestStage> listAllByRequestIdOnLazyMode(Long requestId, PageRequestModel prm) {
+		// abaixo é instanciado um objeto da interface Pageable e não da Class
+		Pageable pageable = PageRequest.of(prm.getPage(), prm.getSize());		
+		Page<RequestStage> page = requestStageRepository.findAllByRequestId(requestId, pageable);
+		
+		// a classe PageModel foi definida no pacote <<model>> do projeto
+		PageModel<RequestStage> pm = new PageModel<>((int)page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent()); 
+		
+		return pm;	
+	}
+
 	
 	
 }
