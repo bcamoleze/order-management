@@ -46,9 +46,10 @@ public class User implements Serializable{
 	@Column(length = 100, nullable = false)
 	private String password;
 	
+	// o role só pode ser atualizado pelo usuário Administrador
 	@Column(length = 20, nullable = false)
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private Role role;                          
 	
 	@Getter(onMethod = @__({@JsonIgnore})) // configuração para não exibir esses objetos no JSON
 	@OneToMany(mappedBy = "owner") // um usuário pode ser dono de vários pedidos

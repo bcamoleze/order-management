@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -24,7 +25,7 @@ public class UserRepositoryTests {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Test
+	@Ignore
 	public void aSaveTest() {
 
 		User user = new User(null, "Bruno", "bruno.camoleze@gmail.com", "123", Role.ADMINISTRATOR, null, null);
@@ -35,7 +36,7 @@ public class UserRepositoryTests {
 
 	}
 
-	@Test
+	@Ignore
 	public void updateTest() {
 
 		User user = new User(1L, "Bruno Camoleze", "bruno.camoleze@gmail.com", "123", Role.ADMINISTRATOR, null, null);
@@ -45,7 +46,7 @@ public class UserRepositoryTests {
 
 	}
 
-	@Test
+	@Ignore
 	public void getByIdTest() {
 
 		Optional<User> result = userRepository.findById(1L);
@@ -55,7 +56,7 @@ public class UserRepositoryTests {
 
 	}
 
-	@Test
+	@Ignore
 	public void listTest() {
 
 		List<User> users = userRepository.findAll();
@@ -64,7 +65,7 @@ public class UserRepositoryTests {
 
 	}
 
-	@Test
+	@Ignore
 	public void login() {
 
 		Optional<User> result = userRepository.login("bruno.camoleze@gmail.com", "123");
@@ -73,4 +74,14 @@ public class UserRepositoryTests {
 		assertThat(loggedUser.getId()).isEqualTo(1L);
 		
 	}
+	
+	@Test
+	public void updateRoleTest() {
+		
+		int affectedRows = userRepository.updateRole(3L, Role.ADMINISTRATOR);
+		
+		assertThat(affectedRows).isEqualTo(1);
+		
+	}
+	
 }

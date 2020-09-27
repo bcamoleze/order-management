@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PageModel<T> implements Serializable{ //Modelo de página
 	
+	private static final long serialVersionUID = 1L;
+	
 	private int totalElements;
 	private int pageSize;
 	private int totalPages;

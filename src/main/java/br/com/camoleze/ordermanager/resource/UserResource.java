@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.camoleze.ordermanager.domain.Request;
 import br.com.camoleze.ordermanager.domain.User;
 import br.com.camoleze.ordermanager.dto.UserLoginDTO;
+import br.com.camoleze.ordermanager.dto.UserUpdateRoleDTO;
 import br.com.camoleze.ordermanager.model.PageModel;
 import br.com.camoleze.ordermanager.model.PageRequestModel;
 import br.com.camoleze.ordermanager.service.RequestService;
@@ -74,6 +76,19 @@ public class UserResource {
 		PageModel<Request> pm = requestService.listAllByOwnerIdOnLazyModel(id, prm);
 		
 		return ResponseEntity.ok(pm);
+		
+	}
+	
+	@PatchMapping("/role/{id}") // muda parcialmente dados de usuários
+	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id,
+										@RequestBody UserUpdateRoleDTO userDTO) {
+		User user = new User();
+		user.setId(id);
+		user.setRole(userDTO.getRole());
+		
+		userService.updateRole(user);
+		
+		return ResponseEntity.ok().build();
 		
 	}
 
