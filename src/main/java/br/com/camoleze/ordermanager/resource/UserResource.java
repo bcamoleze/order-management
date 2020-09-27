@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.camoleze.ordermanager.domain.Request;
 import br.com.camoleze.ordermanager.domain.User;
 import br.com.camoleze.ordermanager.dto.UserLoginDTO;
+import br.com.camoleze.ordermanager.model.PageModel;
+import br.com.camoleze.ordermanager.model.PageRequestModel;
 import br.com.camoleze.ordermanager.service.RequestService;
 import br.com.camoleze.ordermanager.service.UserService;
 
@@ -49,9 +52,13 @@ public class UserResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<User>> listAll() {
-		List<User> users = userService.listAll();
-		return ResponseEntity.ok(users);
+	public ResponseEntity<PageModel<User>> listAll(@RequestParam(value = "page") int page,
+												   @RequestParam(value = "size") int size) {
+		
+		PageRequestModel prm = new PageRequestModel(page, size);
+		PageModel<User> pm = userService.listAllOnLazyMode(prm);
+		
+		return ResponseEntity.ok(pm);
 	}
 	
 	@PostMapping("/login")
