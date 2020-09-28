@@ -27,9 +27,7 @@ public class RequestStageResource {
 	public ResponseEntity<RequestStage> save(@RequestBody @Valid RequestStageSaveDTO requestStageDTO) {			
 		
 		RequestStage stageToSave = requestStageDTO.transformeToRequestStage();
-		
-		RequestStage createdRequestStage = stageService.save(stageToSave);
-		
+		RequestStage createdRequestStage = stageService.save(stageToSave);		
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdRequestStage);
 		
 	}

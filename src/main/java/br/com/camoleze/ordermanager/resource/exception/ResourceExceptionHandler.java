@@ -1,6 +1,8 @@
 package br.com.camoleze.ordermanager.resource.exception;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,12 +31,20 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
-		String defaultMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+
+		List<String> errors = new ArrayList<String>();
 		
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+        	errors.add(error.getDefaultMessage());
+        });
+		
+        // mensagem geral 
+        String defaultMessage = "Invalid field(s)";
+        
 		// customizando meu erro...
-		ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value() , defaultMessage, new Date());
+		ApiErrorList msgError = new ApiErrorList(HttpStatus.BAD_REQUEST.value() , defaultMessage, new Date(), errors);
 		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msgError);
 		
 	}
 	
