@@ -31,7 +31,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		String defaultMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
 		
-		
+		// customizando meu erro...
 		ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value() , defaultMessage, new Date());
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);

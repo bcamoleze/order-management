@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.camoleze.ordermanager.domain.Request;
 import br.com.camoleze.ordermanager.domain.User;
 import br.com.camoleze.ordermanager.dto.UserLoginDTO;
+import br.com.camoleze.ordermanager.dto.UserSaveDTO;
+import br.com.camoleze.ordermanager.dto.UserUpdateDTO;
 import br.com.camoleze.ordermanager.dto.UserUpdateRoleDTO;
 import br.com.camoleze.ordermanager.model.PageModel;
 import br.com.camoleze.ordermanager.model.PageRequestModel;
@@ -35,15 +37,18 @@ public class UserResource {
 	private RequestService requestService;
 	
 	@PostMapping
-	public ResponseEntity<User> save(@RequestBody User user) {
-		User createdUser = userService.save(user);
+	public ResponseEntity<User> save(@RequestBody @Valid UserSaveDTO userDTO) {
+		User userToSave = userDTO.tranformerToUser();
+		User createdUser = userService.save(userToSave);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<User> update(@PathVariable(name = "id") Long id, @RequestBody User user) {
-		user.setId(id);
-		User updateUser = userService.update(user);
+	public ResponseEntity<User> update(@PathVariable(name = "id") Long id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+		User userToUpdate = userUpdateDTO.tranformerToUser();
+		
+		userToUpdate.setId(id);
+		User updateUser = userService.update(userToUpdate);
 		return ResponseEntity.ok(updateUser);
 	}
 	
@@ -83,7 +88,7 @@ public class UserResource {
 	
 	@PatchMapping("/role/{id}") // muda parcialmente dados de usuários
 	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id,
-										@RequestBody UserUpdateRoleDTO userDTO) {
+										@RequestBody @Valid UserUpdateRoleDTO userDTO) {
 		User user = new User();
 		user.setId(id);
 		user.setRole(userDTO.getRole());

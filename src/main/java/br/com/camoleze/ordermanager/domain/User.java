@@ -46,8 +46,8 @@ public class User implements Serializable{
 	@Column(length = 100, nullable = false)
 	private String password;
 	
-	// o role só pode ser atualizado pelo usuário Administrador
-	@Column(length = 20, nullable = false)
+	// o role só pode ser atualizado pelo usuário Administrador e por meio do método especifico
+	@Column(length = 20, nullable = false, updatable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;                          
 	
