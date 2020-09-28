@@ -21,6 +21,4 @@ public class ApiErrorList extends ApiError{
 		
 	}
 	
-	
-	
 }
