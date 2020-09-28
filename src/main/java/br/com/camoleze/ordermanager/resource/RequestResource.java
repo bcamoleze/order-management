@@ -1,5 +1,7 @@
 package br.com.camoleze.ordermanager.resource;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.camoleze.ordermanager.domain.Request;
 import br.com.camoleze.ordermanager.domain.RequestStage;
+import br.com.camoleze.ordermanager.dto.RequestSaveDTO;
+import br.com.camoleze.ordermanager.dto.RequestUpdateDTO;
 import br.com.camoleze.ordermanager.model.PageModel;
 import br.com.camoleze.ordermanager.model.PageRequestModel;
 import br.com.camoleze.ordermanager.service.RequestService;
@@ -30,16 +34,18 @@ public class RequestResource {
 	private RequestStageService stageService;
 	
 	@PostMapping
-	public ResponseEntity<Request> save(@RequestBody Request request) {
-		System.out.println("Controller: " + request);
-		Request createdRequest = requestService.save(request);
+	public ResponseEntity<Request> save(@RequestBody @Valid RequestSaveDTO requestDTO) {
+		Request requestToSave = requestDTO.transformeToRequest();
+		Request createdRequest = requestService.save(requestToSave);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdRequest);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody Request request) {
-		request.setId(id);		
-		Request updateRequest = requestService.update(request);
+	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody @Valid RequestUpdateDTO requestDTO) {
+		Request requestToUpdate = requestDTO.transformeToRequest();
+		requestToUpdate.setId(id);		
+		
+		Request updateRequest = requestService.update(requestToUpdate);
 		return ResponseEntity.ok(updateRequest);
 	}
 	
